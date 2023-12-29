@@ -33,10 +33,18 @@ void Application::run()
 	while (!windowClosed())
 	{
 		create();
+		update();
+
+		SDL_Delay(10);
 	}
 }
 
 void Application::create()
+{
+
+}
+
+void Application::update()
 {
 
 }

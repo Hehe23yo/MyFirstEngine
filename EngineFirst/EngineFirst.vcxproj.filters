@@ -21,6 +21,9 @@
     <ClInclude Include="src\Engine\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\render2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="vendor\SDL\include\SDL3\SDL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -259,9 +262,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="vendor\SDL\include\SDL3\SDL_vulkan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Engine\render2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

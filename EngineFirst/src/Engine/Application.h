@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDL3/SDL.h"
+//#include "SDL3/SDL.h"
 #include "render2D.h"
 #include <iostream>
 
@@ -17,6 +17,7 @@ protected:
 	
 	bool windowClosed();
 	virtual void create();
+	virtual void update();
 	
 private:
 	
