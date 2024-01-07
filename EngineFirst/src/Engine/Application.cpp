@@ -1,6 +1,4 @@
 #include "Application.h"
-#include <iostream>
-//#include "SDL3/SDL.h"
 
 Application::Application()
 {
@@ -14,9 +12,7 @@ Application::~Application()
 
 bool Application::createConsoleWindow()
 {
-	std::cout << "Created" << std::endl;
 	m_window = SDL_CreateWindow(m_Stitle, m_Swidth, m_Sheight, m_Sflags);
-	std::cout << "Created" << std::endl;
 	if (!m_window)
 	{
 		std::cout << "Failed to create window!" << std::endl;
@@ -29,10 +25,13 @@ bool Application::createConsoleWindow()
 
 void Application::run()
 {
+	
 	createRenderer(m_window, m_Rname, m_Rflags);
+	create();
 	while (!windowClosed())
 	{
-		create();
+		
+		//onUserInput();
 		update();
 
 		SDL_Delay(10);
@@ -49,15 +48,40 @@ void Application::update()
 
 }
 
+bool Application::pollEvent(SDL_Event event)
+{
+	//key = SDL_GetKeyboardState(nullptr);
+	return (SDL_PollEvent(&event) > 0);
+}
+
 bool Application::windowClosed()
 {
+	Uint8 const* key;
+	//key = SDL_GetKeyboardState(nullptr);
 	while (SDL_PollEvent(&m_event) > 0)
 	{
 		switch (m_event.type)
 			{
 			case SDL_EVENT_QUIT:
 				return true;
+			case SDL_EVENT_KEY_DOWN:
+				key = SDL_GetKeyboardState(nullptr);
+				for (int i = 0; i < 512; i++)
+				{
+					if (key[i])
+						m_keys[i].down = true;
+				}
+			case SDL_EVENT_KEY_UP:
+				key = SDL_GetKeyboardState(nullptr);
+				for (int i = 0; i < 512; i++)
+				{
+					if(!key[i])
+						m_keys[i].down = false;
+				}
+				//m_keys[KEY_W].up = true;
 			}
+		
+		//SDL_RenderPresent(m_renderer);
 	}
 	
 
