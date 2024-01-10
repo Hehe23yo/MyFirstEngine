@@ -33,39 +33,63 @@ private:
 	vec2D p6 = { 0.0, 350.0 };*/
 
 	std::vector<SDL_FRect*> rectangles;
+	std::vector<vec2DLine*> lines;
 
 	float puckWidth = 50.0f;
 	float puckHeight = 150.0f;
 
 	SDL_FRect leftPuck = { 25.0f, 100.0f, puckWidth, puckHeight };
 	SDL_FRect rightPuck = { 800.0f - 75.0f, 100.0f, puckWidth, puckHeight };
+	SDL_FRect ball = { 400.0f, 300.0f, 17.0f, 17.0f };
 
-	vec2D p5 = { 7.0, 0.0 };
-	vec2D p6 = { 0.0, 350.0 };
+	vec2D p4 = { 300.0, 50.0 };
+	vec2D p5 = { 10.0, 100.0 };
+	vec2D p6 = { 800.0, 600.0 };
+
+	vec2DLine l1 = { 10.0, 100.0, 800.0, 600.0 };
+
+	float ballVelocityX = 3.0f;
+	float ballVelocityY = 3.0f;
 };
 
 void Client::create()
 {
 	rectangles.push_back(&leftPuck);
 	rectangles.push_back(&rightPuck);
+	rectangles.push_back(&ball);
+
+	lines.push_back(&l1);
 }
 
 void Client::update()
-{
-
-	//drawLine(p5, p6);
+{	
+	//drawLines(lines);
+	drawPoint(p4);
+	drawLine(p5, p6);
 	drawRectangles(rectangles, 1);
+	
+	
+	
+	
 
 	if (m_keys[KEY_W].down)
-		leftPuck.y -= 1;
+		leftPuck.y -= 10;
 	else if (m_keys[KEY_S].down)
-		leftPuck.y += 1;
+		leftPuck.y += 10;
 
 	if (m_keys[KEY_UP].down)
-		rightPuck.y -= 1;
+		rightPuck.y -= 10;
 	else if (m_keys[KEY_DOWN].down)
-		rightPuck.y += 1;
+		rightPuck.y += 10;
+	
+	ball.x += ballVelocityX;
+	ball.y -= ballVelocityY;
 
+	if (ball.x >= rightPuck.x - 17.0 || ball.x <= leftPuck.x + puckWidth)
+		if ((ball.y >= rightPuck.y && ball.y <= rightPuck.y + puckHeight) || (ball.y >= leftPuck.y && ball.y <= leftPuck.y + puckHeight))
+			ballVelocityX *= -1.0f;
+	if (ball.y <= 0.0f || ball.y >= 600.0f)
+		ballVelocityY *= -1.0f;
 	
 }
 

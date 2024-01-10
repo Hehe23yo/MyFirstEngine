@@ -33,7 +33,7 @@ void Application::run()
 		
 		//onUserInput();
 		update();
-
+		swapFrames();
 		SDL_Delay(10);
 	}
 }
@@ -57,7 +57,6 @@ bool Application::pollEvent(SDL_Event event)
 bool Application::windowClosed()
 {
 	Uint8 const* key;
-	//key = SDL_GetKeyboardState(nullptr);
 	while (SDL_PollEvent(&m_event) > 0)
 	{
 		switch (m_event.type)
@@ -78,10 +77,7 @@ bool Application::windowClosed()
 					if(!key[i])
 						m_keys[i].down = false;
 				}
-				//m_keys[KEY_W].up = true;
 			}
-		
-		//SDL_RenderPresent(m_renderer);
 	}
 	
 

@@ -37,6 +37,8 @@ public:
 	void drawLine(vec2D p1, vec2D p2);
 	void drawLines(std::vector<vec2DLine*> lines);
 	void drawRectangles(std::vector<SDL_FRect*> entity, bool fill);
+	void drawPoint(vec2D p1);
 	
+	void swapFrames();
 };
 
