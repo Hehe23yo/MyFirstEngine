@@ -10,6 +10,14 @@ protected:
 
 	SDL_Renderer* m_renderer;
 
+	struct rgba
+	{
+		Uint8 r;
+		Uint8 g;
+		Uint8 b;
+		Uint8 a;
+	};
+
 	struct vec2D
 	{
 		float x;
@@ -23,7 +31,7 @@ protected:
 		float x2;
 		float y2;
 	};
-	//std::vector<SDL_FRect> entities;
+	
 	SDL_FRect entities[2];
 	int i = 0;
 
@@ -33,11 +41,12 @@ public:
 	~render2D();
 
 	void createRenderer(SDL_Window* window, const char* name, int flags);
-
-	void drawLine(vec2D p1, vec2D p2);
-	void drawLines(std::vector<vec2DLine*> lines);
-	void drawRectangles(std::vector<SDL_FRect*> entity, bool fill);
-	void drawPoint(vec2D p1);
+	
+	void drawLine(vec2D p1, vec2D p2, rgba colour);
+	void drawLines(std::vector<vec2DLine*> lines, rgba colour);
+	void drawRectangles(std::vector<SDL_FRect*> entity, bool fill, rgba colour);
+	void drawTriangle(vec2D p1, vec2D p2, vec2D p3, rgba colour);
+	void drawPoint(vec2D p1, rgba colour);
 	
 	void swapFrames();
 };

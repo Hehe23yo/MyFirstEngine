@@ -38,15 +38,49 @@ private:
 	float puckWidth = 50.0f;
 	float puckHeight = 150.0f;
 
-	SDL_FRect leftPuck = { 25.0f, 100.0f, puckWidth, puckHeight };
-	SDL_FRect rightPuck = { 800.0f - 75.0f, 100.0f, puckWidth, puckHeight };
-	SDL_FRect ball = { 400.0f, 300.0f, 17.0f, 17.0f };
+	SDL_FRect leftPuck = {
+		25.0f,
+		100.0f,
+		puckWidth,
+		puckHeight
+	};
+
+	SDL_FRect rightPuck = {
+		800.0f - 75.0f,
+		100.0f,
+		puckWidth,
+		puckHeight
+	};
+
+	rgba puckColour = { 200,200,200,255 };
+
+	SDL_FRect ball = {
+		400.0f,
+		300.0f,
+		17.0f,
+		17.0f
+	};
+
+	rgba Colour = { 255,255,0,255 };
 
 	vec2D p4 = { 300.0, 50.0 };
 	vec2D p5 = { 10.0, 100.0 };
 	vec2D p6 = { 800.0, 600.0 };
 
-	vec2DLine l1 = { 10.0, 100.0, 800.0, 600.0 };
+	vec2DLine l1 = {
+		100.0, 100.0,
+		700.0, 500.0,
+	};
+
+	vec2DLine l2 = {
+		700.0, 500.0,
+		800.0, 0.0
+	};
+
+	vec2DLine l3 = {
+		800.0, 0.0,
+		100.0, 100.0
+	};
 
 	float ballVelocityX = 3.0f;
 	float ballVelocityY = 3.0f;
@@ -59,19 +93,19 @@ void Client::create()
 	rectangles.push_back(&ball);
 
 	lines.push_back(&l1);
+	lines.push_back(&l2);
+	lines.push_back(&l3);
 }
 
 void Client::update()
 {	
 	//drawLines(lines);
-	drawPoint(p4);
-	drawLine(p5, p6);
-	drawRectangles(rectangles, 1);
+	drawPoint(p4, Colour);
+	//drawLine(p5, p6, Colour);
+	//drawLines(lines, Colour);
+	drawTriangle(p4, p5, p6, Colour);
+	drawRectangles(rectangles, 1, puckColour);
 	
-	
-	
-	
-
 	if (m_keys[KEY_W].down)
 		leftPuck.y -= 10;
 	else if (m_keys[KEY_S].down)
