@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <math.h>
 
 class Client : public Application
 {
@@ -33,10 +34,15 @@ private:
 	vec2D p6 = { 0.0, 350.0 };*/
 
 	std::vector<SDL_FRect*> rectangles;
-	std::vector<vec2DLine*> lines;
+	std::vector<vec2DLine*> ball;
 
 	float puckWidth = 50.0f;
 	float puckHeight = 150.0f;
+
+	int noTriangles = 70;
+	float radius = 120.0f;
+	float theta = 0.0f;
+	vec2D ballCentre = { 400.0f, 300.0f };
 
 	SDL_FRect leftPuck = {
 		25.0f,
@@ -53,13 +59,6 @@ private:
 	};
 
 	rgba puckColour = { 200,200,200,255 };
-
-	SDL_FRect ball = {
-		400.0f,
-		300.0f,
-		17.0f,
-		17.0f
-	};
 
 	rgba Colour = { 255,255,0,255 };
 
@@ -82,6 +81,8 @@ private:
 		100.0, 100.0
 	};
 
+	
+	//vec2D ball = { 400.0f, 300.0f };
 	float ballVelocityX = 3.0f;
 	float ballVelocityY = 3.0f;
 };
@@ -90,23 +91,86 @@ void Client::create()
 {
 	rectangles.push_back(&leftPuck);
 	rectangles.push_back(&rightPuck);
-	rectangles.push_back(&ball);
 
-	lines.push_back(&l1);
+	ball.reserve(noTriangles + 1);
+	/*lines.push_back(&l1);
 	lines.push_back(&l2);
-	lines.push_back(&l3);
+	lines.push_back(&l3);*/
+
+	for (int i = 0; i < noTriangles + 1; i++)
+	{
+		vec2DLine* line = new vec2DLine;
+		line->x1 = ballCentre.x;
+		line->y1 = ballCentre.y;
+		line->x2 = line->x1 + radius * sin(theta);
+		line->y2 = line->y1 + radius * cos(theta);
+
+		theta += 2 * 3.141593 / noTriangles;
+
+		ball.emplace_back(line);
+	}
 }
 
 void Client::update()
 {	
 	//drawLines(lines);
-	drawPoint(p4, Colour);
+	//drawPoint(p4, Colour);
 	//drawLine(p5, p6, Colour);
 	//drawLines(lines, Colour);
-	drawTriangle(p4, p5, p6, Colour);
-	drawRectangles(rectangles, 1, puckColour);
+	//drawTriangle(p4, p5, p6, Colour,1);
+	//drawRectangles(rectangles, 1, puckColour);
+	//drawLines(lines, Colour);
+
+	vec2D a;
+	vec2D b;
+	vec2D c;
+
+	theta = 0.0;
+
+	for (int i = 0; i < noTriangles + 1; i++)
+	{
+
+		ball[i]->x1 = ballCentre.x;
+		ball[i]->y1 = ballCentre.y;
+		ball[i]->x2 = ball[i]->x1 + radius * sin(theta);
+		ball[i]->y2 = ball[i]->y1 + radius * cos(theta);
+
+		theta += 2 * 3.141593 / noTriangles;
+
+		//lines.erase(std::next(lines.begin(), i));
+		//lines.emplace_back(lines[i]->x1,lines[i]->y1,(line->x1 + radius * sin(theta)), (line->x1 + radius * cos(theta)));
+		//lines.emplace_back(line);
+		
+	}
+	for (int i = 0; i < noTriangles; i++)
+	{
+		a = { ball[i]->x1, ball[i]->y1 };
+		b = { ball[i]->x2, ball[i]->y2 };
+	    c = { ball[i + 1]->x2, ball[i + 1]->y2 };
+		//drawLine(b, c, Colour);
+		drawTriangle(a, b, c, Colour, 1);
+	}
+
+	if(m_keys[KEY_W].down)
+	{
+		ballCentre.y -= 3;
+	}
+	else if(m_keys[KEY_S].down)
+	{
+		ballCentre.y += 3;
+	}
+
+	if (m_keys[KEY_A].down)
+	{
+		ballCentre.x -= 3;
+	}
+	else if (m_keys[KEY_D].down)
+	{
+		ballCentre.x += 3;
+	}
 	
-	if (m_keys[KEY_W].down)
+	
+	/*if (m_keys[KEY_W].down)
 		leftPuck.y -= 10;
 	else if (m_keys[KEY_S].down)
 		leftPuck.y += 10;
@@ -114,16 +178,7 @@ void Client::update()
 	if (m_keys[KEY_UP].down)
 		rightPuck.y -= 10;
 	else if (m_keys[KEY_DOWN].down)
-		rightPuck.y += 10;
-	
-	ball.x += ballVelocityX;
-	ball.y -= ballVelocityY;
-
-	if (ball.x >= rightPuck.x - 17.0 || ball.x <= leftPuck.x + puckWidth)
-		if ((ball.y >= rightPuck.y && ball.y <= rightPuck.y + puckHeight) || (ball.y >= leftPuck.y && ball.y <= leftPuck.y + puckHeight))
-			ballVelocityX *= -1.0f;
-	if (ball.y <= 0.0f || ball.y >= 600.0f)
-		ballVelocityY *= -1.0f;
+		rightPuck.y += 10;*/
 	
 }
 

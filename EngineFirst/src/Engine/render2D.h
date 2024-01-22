@@ -31,11 +31,18 @@ protected:
 		float x2;
 		float y2;
 	};
+
+	struct circle
+	{
+		std::vector<vec2DLine*> lines;
+		int noTriangles;
+		vec2D centre;
+		float radius;
+	};
 	
 	SDL_FRect entities[2];
 	int i = 0;
 
-	//std::vector<SDL_FRect> rects;
 public:
 	render2D();
 	~render2D();
@@ -45,9 +52,9 @@ public:
 	void drawLine(vec2D p1, vec2D p2, rgba colour);
 	void drawLines(std::vector<vec2DLine*> lines, rgba colour);
 	void drawRectangles(std::vector<SDL_FRect*> entity, bool fill, rgba colour);
-	void drawTriangle(vec2D p1, vec2D p2, vec2D p3, rgba colour);
+	void drawTriangle(vec2D p1, vec2D p2, vec2D p3, rgba colour, bool fill);
 	void drawPoint(vec2D p1, rgba colour);
-	
+
 	void swapFrames();
 };
 

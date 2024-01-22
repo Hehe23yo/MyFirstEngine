@@ -76,11 +76,35 @@ void render2D::drawRectangles(std::vector<SDL_FRect*> entity, bool fill, rgba co
 * - Takes co-ordinates data of three points
 * - Takes colour data of rgba type
 */
-void render2D::drawTriangle(vec2D p1, vec2D p2, vec2D p3, rgba colour)
+void render2D::drawTriangle(vec2D p1, vec2D p2, vec2D p3, rgba colour, bool fill)
 {
 	drawLine(p1, p2, colour);
 	drawLine(p2, p3, colour);
 	drawLine(p3, p1, colour);
+
+	if(fill)
+	{
+		float slope = (p3.y - p2.y) / (p3.x - p2.x);
+		float intercept = p2.y - (slope * p2.x);
+		if (p2.x <= p3.x)
+		{
+			while (p2.x <= p3.x)
+			{
+				p2.x += 0.15;
+				p2.y = (p2.x * slope) + intercept;
+				drawLine(p1, p2, colour);
+			}
+		}
+		else if (p2.x >= p3.x)
+		{
+			while (p2.x >= p3.x)
+			{
+				p2.x -= 0.15;
+				p2.y = (p2.x * slope) + intercept;
+				drawLine(p1, p2, colour);
+			}
+		}
+	}
 }
 
 /**
